@@ -1,0 +1,50 @@
+-- Schema for ConectaUNI (MySQL)
+CREATE DATABASE IF NOT EXISTS conectauni CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE conectauni;
+
+CREATE TABLE IF NOT EXISTS users (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(255),
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(128) NOT NULL,
+  salt VARCHAR(64) NOT NULL,
+  role VARCHAR(32),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS events (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255),
+  description TEXT,
+  start_at DATETIME NULL,
+  end_at DATETIME NULL,
+  location VARCHAR(512),
+  budget DOUBLE,
+  creator_id BIGINT,
+  FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS invites (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  event_id BIGINT,
+  invitee_email VARCHAR(255),
+  token VARCHAR(255) UNIQUE,
+  qr_code_path VARCHAR(1024),
+  rsvp_status VARCHAR(32) DEFAULT 'PENDING',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS evaluations (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  event_id BIGINT,
+  user_id BIGINT,
+  stars INT,
+  comment TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_user_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_invite_token ON invites(token);

@@ -1,0 +1,52 @@
+@startuml ConectaUNI-ERD
+' Entities
+entity "users" as users {
+  * id : BIGINT <<PK>>
+  --
+  full_name : VARCHAR(255)
+  email : VARCHAR(255) <<U>>
+  password_hash : VARCHAR(128)
+  salt : VARCHAR(64)
+  role : VARCHAR(32)
+  created_at : TIMESTAMP
+}
+
+entity "events" as events {
+  * id : BIGINT <<PK>>
+  --
+  title : VARCHAR(255)
+  description : TEXT
+  start_at : DATETIME
+  end_at : DATETIME
+  location : VARCHAR(512)
+  budget : DOUBLE
+  creator_id : BIGINT <<FK>>
+}
+
+entity "invites" as invites {
+  * id : BIGINT <<PK>>
+  --
+  event_id : BIGINT <<FK>>
+  invitee_email : VARCHAR(255)
+  token : VARCHAR(255) <<U>>
+  qr_code_path : VARCHAR(1024)
+  rsvp_status : VARCHAR(32)
+  created_at : TIMESTAMP
+}
+
+entity "evaluations" as evaluations {
+  * id : BIGINT <<PK>>
+  --
+  event_id : BIGINT <<FK>>
+  user_id : BIGINT <<FK>>
+  stars : INT
+  comment : TEXT
+  created_at : TIMESTAMP
+}
+
+' Relationships
+users ||--o{ events : "creator_id"
+events ||--o{ invites : "event_id"
+events ||--o{ evaluations : "event_id"
+users ||--o{ evaluations : "user_id"
+@enduml
