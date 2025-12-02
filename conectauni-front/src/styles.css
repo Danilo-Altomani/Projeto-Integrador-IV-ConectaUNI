@@ -1,0 +1,18 @@
+
+:root {
+  --primary-blue: #1E88E5;
+  --bg-light: #F5F7FA;
+  --text-grey: #757575;
+}
+body { margin: 0; font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-light); height: 100vh; }
+input, select, textarea { outline: none; }
+input, select, textarea {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fafafa;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary-blue);
+  background-color: #fff;
+}

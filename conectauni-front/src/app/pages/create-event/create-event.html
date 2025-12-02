@@ -1,0 +1,36 @@
+<div style="background: white; padding: 40px; border-radius: 12px; max-width: 700px; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+  <h2 style="margin-top: 0; margin-bottom: 25px; color: #333;">Criar Novo Evento</h2>
+  
+  <form (ngSubmit)="save()" style="display: flex; flex-direction: column; gap: 20px;">
+    <div>
+      <label style="display: block; margin-bottom: 5px; font-weight: 500;">Título</label>
+      <input [(ngModel)]="event.title" name="title" required style="width: 100%;">
+    </div>
+
+    <div>
+      <label style="display: block; margin-bottom: 5px; font-weight: 500;">Descrição</label>
+      <textarea [(ngModel)]="event.description" name="desc" rows="4" style="width: 100%;"></textarea>
+    </div>
+
+    <div style="display: flex; gap: 20px;">
+      <div style="flex: 1;">
+        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Início</label>
+        <input type="datetime-local" [(ngModel)]="event.startAt" name="start" required style="width: 100%;">
+      </div>
+      <div style="flex: 1;">
+        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Fim</label>
+        <input type="datetime-local" [(ngModel)]="event.endAt" name="end" required style="width: 100%;">
+      </div>
+    </div>
+
+    <div>
+      <label style="display: block; margin-bottom: 5px; font-weight: 500;">Localização</label>
+      <input [(ngModel)]="event.location" name="loc" required style="width: 100%;">
+    </div>
+
+    <div style="display: flex; gap: 15px; margin-top: 10px;">
+      <button type="submit" style="flex: 1; padding: 12px; background: #1E88E5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Salvar</button>
+      <button type="button" routerLink="/dashboard" style="padding: 12px 20px; background: transparent; border: 1px solid #ddd; border-radius: 8px; cursor: pointer;">Cancelar</button>
+    </div>
+  </form>
+</div>
