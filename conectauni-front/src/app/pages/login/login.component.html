@@ -1,15 +1,17 @@
-<div style="display: flex; height: 100vh;">
-  <div style="width: 40%; background: #1E88E5; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+<div class="login-wrapper">
+  <div class="login-banner">
     <h1>ConectaUNI</h1>
     <p>A sua plataforma universitária</p>
-    <button (click)="isRegistering = !isRegistering" style="margin-top: 20px; background: transparent; border: 1px solid white; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer;">
+    <button class="btn-outline" (click)="isRegistering = !isRegistering">
       {{ isRegistering ? 'Já tenho conta' : 'Criar conta' }}
     </button>
   </div>
   
-  <div style="flex: 1; display: flex; align-items: center; justify-content: center; background: white;">
-    <form (ngSubmit)="submit()" style="width: 320px; display: flex; flex-direction: column; gap: 15px;">
-      <h2 style="color: #1E88E5; text-align: center;">{{ isRegistering ? 'Criar Conta' : 'Login' }}</h2>
+  <div class="login-form-container">
+    <form (ngSubmit)="submit()" class="login-form">
+      <h2 style="color: var(--primary-blue); text-align: center; margin-bottom: 20px;">
+        {{ isRegistering ? 'Criar Conta' : 'Login' }}
+      </h2>
       
       <input *ngIf="isRegistering" [(ngModel)]="fullName" name="name" placeholder="Nome Completo" required>
       <input [(ngModel)]="email" name="email" placeholder="E-mail" type="email" required>
@@ -20,9 +22,36 @@
         <option value="ORGANIZADOR">Organizador</option>
       </select>
 
-      <button type="submit" style="padding: 12px; background: #1E88E5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px;">
+      <button type="submit" class="btn-primary">
         {{ isRegistering ? 'Cadastrar' : 'Entrar' }}
       </button>
     </form>
   </div>
 </div>
+
+<style>
+  .login-wrapper { display: flex; height: 100vh; }
+  .login-banner {
+    width: 40%;
+    background-color: var(--primary-blue);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-form-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+  }
+  .login-form { width: 100%; max-width: 320px; }
+  
+  @media (max-width: 768px) {
+    .login-wrapper { flex-direction: column; }
+    .login-banner { width: 100%; padding: 40px 0; }
+    .login-form-container { padding: 40px 20px; }
+  }
+</style>
