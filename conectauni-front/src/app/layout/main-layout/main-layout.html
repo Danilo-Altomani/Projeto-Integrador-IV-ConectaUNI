@@ -1,25 +1,35 @@
-<p>main-layout works!</p>
-<div style="display: flex; height: 100vh;">
-  <aside style="width: 260px; background: #1E88E5; color: white; padding: 25px; display: flex; flex-direction: column;">
-    <h2 style="margin-top:0; margin-bottom: 40px; font-size: 1.5rem;">ConectaUNI</h2>
+<div class="layout-container">
+  <aside class="sidebar">
+    <div class="logo">
+      <h2>ConectaUNI</h2>
+    </div>
     
-    <nav style="display: flex; flex-direction: column; gap: 10px;">
-      <a routerLink="/dashboard" style="color: white; text-decoration: none; padding: 12px; background: rgba(255,255,255,0.2); border-radius: 8px; cursor: pointer;">
-        Meus Eventos
-      </a>
-      <a style="color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px; cursor: not-allowed;">
-        Convites (Em breve)
-      </a>
+    <nav class="menu">
+      <div routerLink="/dashboard" 
+           routerLinkActive="active" 
+           class="menu-item">
+         Meus Eventos
+      </div>
+      
+      <div routerLink="/create-event" 
+           routerLinkActive="active" 
+           class="menu-item">
+         Criar Novo
+      </div>
+
+      <div class="menu-item disabled">
+         Convites (Em breve)
+      </div>
     </nav>
 
-    <div style="margin-top: auto;">
-      <a (click)="logout()" style="color: rgba(255,255,255,0.8); cursor: pointer; display: flex; align-items: center; gap: 10px;">
+    <div class="footer">
+      <button (click)="logout()" class="logout-btn">
         Sair da conta
-      </a>
+      </button>
     </div>
   </aside>
 
-  <main style="flex: 1; padding: 40px; background: #F5F7FA; overflow-y: auto;">
+  <main class="content-area">
     <router-outlet></router-outlet>
   </main>
 </div>

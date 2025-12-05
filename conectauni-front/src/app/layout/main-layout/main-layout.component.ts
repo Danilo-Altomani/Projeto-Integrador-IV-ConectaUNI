@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router'; 
+import { AuthService } from '../../pages/services/auth.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
   standalone: false
 })
 export class MainLayoutComponent {
+  
   constructor(private auth: AuthService, private router: Router) {}
 
   logout() {

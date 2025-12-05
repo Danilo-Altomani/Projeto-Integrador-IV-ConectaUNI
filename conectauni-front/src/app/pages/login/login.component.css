@@ -1,0 +1,40 @@
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.login-banner {
+  width: 40%;
+  background-color: var(--primary-blue);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 320px;
+}
+
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+  .login-banner {
+    width: 100%;
+    padding: 40px 0;
+  }
+  .login-form-container {
+    padding: 40px 20px;
+  }
+}

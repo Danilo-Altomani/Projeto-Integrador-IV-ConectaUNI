@@ -1,0 +1,22 @@
+.layout-container { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+.sidebar { width: 260px; background-color: #1E88E5; color: white; display: flex; flex-direction: column; padding: 20px; z-index: 10; }
+.logo h2 { margin: 0 0 30px 0; font-size: 1.5rem; }
+.menu { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+
+.menu-item {
+  color: rgba(255, 255, 255, 0.9);
+  padding: 12px 15px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  cursor: pointer;
+  user-select: none; 
+}
+
+.menu-item:hover { background-color: rgba(255, 255, 255, 0.1); }
+
+.menu-item.active { background-color: white; color: #1E88E5; font-weight: bold; }
+.menu-item.disabled { opacity: 0.6; cursor: not-allowed; }
+
+.footer { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+.logout-btn { background: none; border: none; color: white; cursor: pointer; font-size: 1rem; width: 100%; text-align: left; }
+.content-area { flex: 1; background-color: #F5F7FA; padding: 30px; overflow-y: auto; }

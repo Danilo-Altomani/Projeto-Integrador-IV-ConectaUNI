@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { EventService } from '../../services/event.service';
+// Certifica-te que este caminho está correto (../services se ambos estiverem dentro de pages)
+import { EventService } from '../services/event.service'; 
+import { ConectaEvent } from '../../models/interfaces';
 
 @Component({
   selector: 'app-create-event',
@@ -9,7 +11,8 @@ import { EventService } from '../../services/event.service';
   standalone: false
 })
 export class CreateEventComponent {
-  event = {
+
+  event: Partial<ConectaEvent> = {
     title: '',
     description: '',
     startAt: '',
@@ -21,21 +24,32 @@ export class CreateEventComponent {
   constructor(private srv: EventService, private router: Router) {}
 
   save() {
-    if(!this.event.title || !this.event.startAt) { 
-      alert('Preencha os campos obrigatórios!'); 
-      return; 
+    // 1. Validação
+    if (!this.event.title || !this.event.startAt || !this.event.endAt) {
+      alert('Por favor, preencha o título e as datas do evento!');
+      return;
     }
-    const payload = {
-      ...this.event,
-      startAt: new Date(this.event.startAt).toISOString(),
-      endAt: this.event.endAt ? new Date(this.event.endAt).toISOString() : ''
-    };
-    this.srv.create(payload).subscribe({
-      next: () => { 
-        alert('Evento criado!'); 
-        this.router.navigate(['/dashboard']); 
-      },
-      error: (err) => alert('Erro: ' + JSON.stringify(err.error))
-    });
+
+    try {
+
+      const payload = {
+        ...this.event,
+        startAt: new Date(this.event.startAt).toISOString(),
+        endAt: new Date(this.event.endAt).toISOString()
+      };
+
+      this.srv.create(payload as ConectaEvent).subscribe({
+        next: () => {
+          alert('Evento criado com sucesso!');
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Erro ao criar evento: ' + (err.error?.message || 'Erro desconhecido'));
+        }
+      });
+    } catch (e) {
+      alert('Erro nas datas. Verifique se foram preenchidas corretamente.');
+    }
   }
 }

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+// Import corrigido: apenas um '../' pois ambos estão dentro de 'pages'
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.html',
-  styleUrls: ['./login.css'],
+  templateUrl: './login.component.html', 
+  styleUrls: ['./login.component.css'],  
   standalone: false
 })
 export class LoginComponent {

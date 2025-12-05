@@ -7,11 +7,16 @@ import { CreateEventComponent } from './pages/create-event/create-event.componen
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', component: MainLayoutComponent, children: [
+  { 
+    path: '', 
+    component: MainLayoutComponent, 
+    children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'create-event', component: CreateEventComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
-  ]}
+    ]
+  }
 ];
+
 @NgModule({ imports: [RouterModule.forRoot(routes)], exports: [RouterModule] })
 export class AppRoutingModule { }
