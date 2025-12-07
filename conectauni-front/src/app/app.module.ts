@@ -9,6 +9,8 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CreateEventComponent } from './pages/create-event/create-event.component';
+import { MyInvitesComponent } from './pages/my-invites/my-invites.component';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { CreateEventComponent } from './pages/create-event/create-event.componen
     MainLayoutComponent,
     LoginComponent,
     DashboardComponent,
-    CreateEventComponent
+    CreateEventComponent,
+    MyInvitesComponent
+  
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,6 @@ import { CreateEventComponent } from './pages/create-event/create-event.componen
     FormsModule
   ],
   providers: [
-
     provideHttpClient(withInterceptorsFromDi())
   ],
   bootstrap: [AppComponent]

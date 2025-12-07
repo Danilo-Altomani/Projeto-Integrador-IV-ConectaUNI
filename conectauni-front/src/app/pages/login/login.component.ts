@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-// Import corrigido: apenas um '../' pois ambos estão dentro de 'pages'
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -18,7 +17,29 @@ export class LoginComponent {
 
   constructor(private auth: AuthService, private router: Router) {}
 
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  }
+
   submit() {
+    if (this.isRegistering) {
+      if (!this.fullName.trim() || !this.email.trim() || !this.password.trim()) {
+        alert('Erro: Todos os campos (Nome, E-mail e Senha) são obrigatórios!');
+        return;
+      }
+    } else {
+      if (!this.email.trim() || !this.password.trim()) {
+        alert('Por favor, preencha E-mail e Senha.');
+        return;
+      }
+    }
+
+    if (!this.isValidEmail(this.email)) {
+      alert('E-mail inválido! Certifique-se de incluir o provedor e a extensão (ex: @gmail.com, @outlook.com).');
+      return;
+    }
+
     if (this.isRegistering) {
       this.auth.register({
         email: this.email,
@@ -35,7 +56,7 @@ export class LoginComponent {
     } else {
       this.auth.login({ email: this.email, password: this.password }).subscribe({
         next: () => this.router.navigate(['/dashboard']),
-        error: () => alert('Login inválido!')
+        error: () => alert('Login inválido! Verifique suas credenciais.')
       });
     }
   }

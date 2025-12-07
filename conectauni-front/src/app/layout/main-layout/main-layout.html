@@ -8,23 +8,33 @@
       <div routerLink="/dashboard" 
            routerLinkActive="active" 
            class="menu-item">
-         Meus Eventos
+         🏠 Meus Eventos
       </div>
       
-      <div routerLink="/create-event" 
+      <div *ngIf="isOrganizer"
+           routerLink="/create-event" 
            routerLinkActive="active" 
            class="menu-item">
-         Criar Novo
+         ➕ Criar Novo
       </div>
 
-      <div class="menu-item disabled">
-         Convites (Em breve)
+      <div *ngIf="isOrganizer"
+           routerLink="/send-invite" 
+           routerLinkActive="active" 
+           class="menu-item">
+         📤 Enviar Convite
+      </div>
+
+      <div routerLink="/my-invites" 
+           routerLinkActive="active"
+           class="menu-item">
+         🎟️ Meus Ingressos
       </div>
     </nav>
 
     <div class="footer">
       <button (click)="logout()" class="logout-btn">
-        Sair da conta
+        🚪 Sair da conta
       </button>
     </div>
   </aside>

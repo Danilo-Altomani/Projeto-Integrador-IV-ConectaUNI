@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-// Certifica-te que este caminho está correto (../services se ambos estiverem dentro de pages)
-import { EventService } from '../services/event.service'; 
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { EventService } from '../services/event.service';
+import { AuthService } from '../services/auth.service';
 import { ConectaEvent } from '../../models/interfaces';
 
 @Component({
@@ -10,7 +10,10 @@ import { ConectaEvent } from '../../models/interfaces';
   styleUrls: ['./create-event.css'],
   standalone: false
 })
-export class CreateEventComponent {
+export class CreateEventComponent implements OnInit {
+
+  isEditing = false;
+  eventId: number | null = null;
 
   event: Partial<ConectaEvent> = {
     title: '',
@@ -21,33 +24,82 @@ export class CreateEventComponent {
     budget: 0
   };
 
-  constructor(private srv: EventService, private router: Router) {}
+  constructor(
+    private srv: EventService,
+    private auth: AuthService, 
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit() {
+
+    if (!this.auth.isOrganizer()) {
+      alert('Acesso negado: Apenas organizadores podem criar ou editar eventos.');
+      this.router.navigate(['/dashboard']);
+      return; 
+    }
+
+
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditing = true;
+      this.eventId = Number(id);
+      this.loadEvent(this.eventId);
+    }
+  }
+
+  loadEvent(id: number) {
+    this.srv.getById(id).subscribe({
+      next: (res) => {
+        this.event = res;
+ 
+        if(this.event.startAt) this.event.startAt = this.event.startAt.substring(0, 16);
+        if(this.event.endAt) this.event.endAt = this.event.endAt.substring(0, 16);
+      },
+      error: () => {
+        alert('Erro ao carregar o evento.');
+        this.router.navigate(['/dashboard']);
+      }
+    });
+  }
 
   save() {
-    // 1. Validação
+
+    if (!this.auth.isOrganizer()) {
+        alert('Você não tem permissão para realizar esta ação.');
+        return;
+    }
+
     if (!this.event.title || !this.event.startAt || !this.event.endAt) {
       alert('Por favor, preencha o título e as datas do evento!');
       return;
     }
 
     try {
-
       const payload = {
         ...this.event,
         startAt: new Date(this.event.startAt).toISOString(),
         endAt: new Date(this.event.endAt).toISOString()
       };
 
-      this.srv.create(payload as ConectaEvent).subscribe({
-        next: () => {
-          alert('Evento criado com sucesso!');
-          this.router.navigate(['/dashboard']);
-        },
-        error: (err) => {
-          console.error(err);
-          alert('Erro ao criar evento: ' + (err.error?.message || 'Erro desconhecido'));
-        }
-      });
+      if (this.isEditing && this.eventId) {
+        this.srv.update(this.eventId, payload as ConectaEvent).subscribe({
+          next: () => {
+            alert('Evento atualizado com sucesso!');
+            this.router.navigate(['/dashboard']);
+          },
+          error: (err) => alert('Erro ao atualizar: ' + (err.error?.message || 'Erro desconhecido'))
+        });
+      } else {
+        this.srv.create(payload as ConectaEvent).subscribe({
+          next: () => {
+            alert('Evento criado com sucesso!');
+            this.router.navigate(['/dashboard']);
+          },
+          error: (err) => alert('Erro ao criar evento: ' + (err.error?.message || 'Erro desconhecido'))
+        });
+      }
+
     } catch (e) {
       alert('Erro nas datas. Verifique se foram preenchidas corretamente.');
     }

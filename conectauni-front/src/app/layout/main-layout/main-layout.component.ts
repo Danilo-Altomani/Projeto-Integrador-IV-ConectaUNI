@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; 
 import { AuthService } from '../../pages/services/auth.service';
 
@@ -8,9 +8,16 @@ import { AuthService } from '../../pages/services/auth.service';
   styleUrls: ['./main-layout.css'],
   standalone: false
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit { 
   
+  isOrganizer = false; 
+
   constructor(private auth: AuthService, private router: Router) {}
+
+  ngOnInit() {
+ 
+    this.isOrganizer = this.auth.isOrganizer();
+  }
 
   logout() {
     this.auth.logout();

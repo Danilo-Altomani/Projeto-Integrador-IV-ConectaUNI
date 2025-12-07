@@ -1,6 +1,6 @@
 <div style="background: white; padding: 40px; border-radius: 12px; max-width: 700px; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-    <h2 style="margin: 0; color: #333;">Criar Novo Evento</h2>
+    <h2 style="margin: 0; color: #333;">{{ isEditing ? 'Editar Evento' : 'Criar Novo Evento' }}</h2>
     <a routerLink="/dashboard" style="text-decoration: none; color: #777; font-size: 0.9rem; cursor: pointer;">&larr; Voltar</a>
   </div>
   
@@ -33,11 +33,11 @@
 
     <div style="display: flex; gap: 15px; margin-top: 10px;">
       <button type="submit" style="flex: 1; padding: 12px; background: #1E88E5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-        Salvar
+        {{ isEditing ? 'Salvar Alterações' : 'Criar Evento' }}
       </button>
       
       <button type="button" routerLink="/dashboard" style="padding: 12px 30px; background: #e0e0e0; color: #333; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
-        Voltar
+        Cancelar
       </button>
     </div>
   </form>
